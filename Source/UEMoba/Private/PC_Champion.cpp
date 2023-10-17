@@ -30,5 +30,12 @@ void APC_Champion::BeginPlay()
 
 		// Looking
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, character, &ABPC_Champion::Look);
+
+
+		// Abilities
+		EnhancedInputComponent->BindAction(monstroAction, ETriggerEvent::Triggered, character, &ABPC_Champion::AbilityMonstro);
+		EnhancedInputComponent->BindAction(speedAction, ETriggerEvent::Triggered, character, &ABPC_Champion::AbilitySpeed);
+		EnhancedInputComponent->BindAction(recoverAction, ETriggerEvent::Triggered, character, &ABPC_Champion::AbilityRecover);
+		EnhancedInputComponent->BindAction(ultiAction, ETriggerEvent::Triggered, character, &ABPC_Champion::AbilityUltimate);
 	}
 }
