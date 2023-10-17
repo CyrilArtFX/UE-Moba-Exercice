@@ -27,6 +27,8 @@ void ABPC_Champion::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	// Set ultimate cooldown to max at the beginning of the game
+	ultiCrtCD = ultiCooldown;
 }
 
 
@@ -34,6 +36,11 @@ void ABPC_Champion::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	// Decrease cooldowns each frame
+	monstroCrtCD = fmax(monstroCrtCD - DeltaTime, 0.0f);
+	speedieCrtCD = fmax(speedieCrtCD - DeltaTime, 0.0f);
+	recoverCrtCD = fmax(recoverCrtCD - DeltaTime, 0.0f);
+	ultiCrtCD = fmax(ultiCrtCD - DeltaTime, 0.0f);
 }
 
 void ABPC_Champion::Move(const FInputActionValue& Value)
@@ -60,21 +67,57 @@ void ABPC_Champion::Look(const FInputActionValue& Value)
 
 void ABPC_Champion::AbilityMonstro()
 {
+	if (monstroCrtCD > 0.0f)
+	{
+		kPRINT_COLOR("Monstro ability on cooldown for " + FString::SanitizeFloat(monstroCrtCD) + " seconds.", FColor::Red);
+		return;
+	}
+
+	monstroCrtCD = monstroCooldown;
+
+
 	kPRINT("Monstro");
 }
 
 void ABPC_Champion::AbilitySpeed()
 {
-	kPRINT("Speed");
+	if (speedieCrtCD > 0.0f)
+	{
+		kPRINT_COLOR("Speedie ability on cooldown for " + FString::SanitizeFloat(speedieCrtCD) + " seconds.", FColor::Red);
+		return;
+	}
+
+	speedieCrtCD = speedieCooldown;
+
+
+	kPRINT("Speedie");
 }
 
 void ABPC_Champion::AbilityRecover()
 {
+	if (recoverCrtCD > 0.0f)
+	{
+		kPRINT_COLOR("Recover ability on cooldown for " + FString::SanitizeFloat(recoverCrtCD) + " seconds.", FColor::Red);
+		return;
+	}
+
+	recoverCrtCD = recoverCooldown;
+
+
 	kPRINT("Recover");
 }
 
 void ABPC_Champion::AbilityUltimate()
 {
+	if (ultiCrtCD > 0.0f)
+	{
+		kPRINT_COLOR("Ultimate ability on cooldown for " + FString::SanitizeFloat(ultiCrtCD) + " seconds.", FColor::Red);
+		return;
+	}
+
+	ultiCrtCD = ultiCooldown;
+
+
 	kPRINT("Ultimate");
 }
 

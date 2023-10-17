@@ -96,4 +96,12 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+
+private:
+	// Cooldowns
+	float monstroCrtCD = 0.0f;
+	float speedieCrtCD = 0.0f;
+	float recoverCrtCD = 0.0f;
+	float ultiCrtCD = 0.0f;
 };
