@@ -23,19 +23,6 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		UCameraComponent* FirstPersonCameraComponent;
 
-	// Inputs (should be in PC)
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputMappingContext* DefaultMappingContext;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* JumpAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* MoveAction;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
-		class UInputAction* LookAction;
-
 
 	// Cooldowns
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
@@ -92,14 +79,13 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-protected:
-	virtual void BeginPlay() override;
-
-	// Inputs (should be in PC)
-	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
-
 
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
+
+
+
+protected:
+	virtual void BeginPlay() override;
 };

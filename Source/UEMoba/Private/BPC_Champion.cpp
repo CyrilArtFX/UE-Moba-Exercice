@@ -25,15 +25,6 @@ ABPC_Champion::ABPC_Champion()
 void ABPC_Champion::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// Add Input Mapping Context (should be in PC)
-	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(DefaultMappingContext, 0);
-		}
-	}
 	
 }
 
@@ -42,23 +33,6 @@ void ABPC_Champion::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-}
-
-// Bind inpust (should be in PC)
-void ABPC_Champion::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-	{
-		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
-
-		// Moving
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ABPC_Champion::Move);
-
-		// Looking
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &ABPC_Champion::Look);
-	}
 }
 
 void ABPC_Champion::Move(const FInputActionValue& Value)

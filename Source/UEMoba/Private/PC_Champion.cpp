@@ -6,27 +6,29 @@
 #include "InputActionValue.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Defines.h"
 
 void APC_Champion::BeginPlay()
 {
 	Super::BeginPlay();
 
-	character = Cast<ABPC_Champion>(GetPawn());
+	character = CastChecked<ABPC_Champion>(GetPawn());
 
-	/*if (UEnhancedInputLocalPlayerSubsystem* input_subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
+	if (UEnhancedInputLocalPlayerSubsystem* input_subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		input_subsystem->AddMappingContext(DefaultMappingContext, 0);
-	}*/
-}
+	}
 
-
-void APC_Champion::SetupInputComponent()
-{
-	Super::SetupInputComponent();
-
-	// Set up action bindings
-	/*if (UEnhancedInputComponent* enhanced_input_component = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(character->InputComponent))
 	{
-		enhanced_input_component->BindAction(JumpAction, ETriggerEvent::Triggered, character, &ACharacter::Jump);
-	}*/
+		// Jumping
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, character, &ACharacter::Jump);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, character, &ACharacter::StopJumping);
+
+		// Moving
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, character, &ABPC_Champion::Move);
+
+		// Looking
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, character, &ABPC_Champion::Look);
+	}
 }

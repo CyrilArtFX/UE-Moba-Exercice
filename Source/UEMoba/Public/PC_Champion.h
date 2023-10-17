@@ -25,11 +25,12 @@ class UEMOBA_API APC_Champion : public APlayerController
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	class UInputAction* MoveAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	class UInputAction* LookAction;
+
 
 protected:
 	virtual void BeginPlay();
-
-	virtual void SetupInputComponent() override;
 
 
 private:
