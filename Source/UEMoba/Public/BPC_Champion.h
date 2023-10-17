@@ -85,6 +85,14 @@ public:
 	void Look(const FInputActionValue& Value);
 
 
+	void AbilityMonstro();
+
+	void AbilitySpeed();
+	
+	void AbilityRecover();
+
+	void AbilityUltimate();
+
 
 protected:
 	virtual void BeginPlay() override;

@@ -6,6 +6,7 @@
 #include "Components/CapsuleComponent.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Defines.h"
 
 
 ABPC_Champion::ABPC_Champion()
@@ -55,5 +56,25 @@ void ABPC_Champion::Look(const FInputActionValue& Value)
 		AddControllerYawInput(LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void ABPC_Champion::AbilityMonstro()
+{
+	kPRINT("Monstro");
+}
+
+void ABPC_Champion::AbilitySpeed()
+{
+	kPRINT("Speed");
+}
+
+void ABPC_Champion::AbilityRecover()
+{
+	kPRINT("Recover");
+}
+
+void ABPC_Champion::AbilityUltimate()
+{
+	kPRINT("Ultimate");
 }
 
