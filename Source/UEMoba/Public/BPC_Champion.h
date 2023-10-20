@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
 #include <Particles/ParticleSystem.h>
+#include "PWN_Monstro.h"
 #include "BPC_Champion.generated.h"
 
 class UInputComponent;
@@ -50,6 +51,9 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
 		float monstroLifeTime = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (AllowPrivateAccess = "true"))
+		TSubclassOf<APWN_Monstro> monstroBlueprint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (AllowPrivateAccess = "true"))
 		UParticleSystem* monstroPingParticles;
@@ -112,6 +116,8 @@ private:
 	float speedieCrtCD = 0.0f;
 	float recoverCrtCD = 0.0f;
 	float ultiCrtCD = 0.0f;
+
+	APWN_Monstro* monstro{ nullptr };
 
 	FVector GetMonstroDestination();
 };
