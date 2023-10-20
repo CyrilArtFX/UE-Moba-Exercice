@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputActionValue.h"
+#include <Particles/ParticleSystem.h>
 #include "BPC_Champion.generated.h"
 
 class UInputComponent;
@@ -42,10 +43,16 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 		float monstroSpeed = 0.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
+		float monstroPingMaxDist = 1500.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
 		float monstroMaxCtrlTime = 0.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
 		float monstroLifeTime = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (AllowPrivateAccess = "true"))
+		UParticleSystem* monstroPingParticles;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SpeedieAbility, meta = (min = 1.0f, AllowPrivateAccess = "true"))
@@ -86,6 +93,7 @@ public:
 
 
 	void AbilityMonstro();
+	void PingMonstro();
 
 	void AbilitySpeed();
 	
@@ -104,4 +112,6 @@ private:
 	float speedieCrtCD = 0.0f;
 	float recoverCrtCD = 0.0f;
 	float ultiCrtCD = 0.0f;
+
+	FVector GetMonstroDestination();
 };

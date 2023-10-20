@@ -7,6 +7,8 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "Defines.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 
 
 ABPC_Champion::ABPC_Champion()
@@ -26,7 +28,7 @@ ABPC_Champion::ABPC_Champion()
 void ABPC_Champion::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
 	// Set ultimate cooldown to max at the beginning of the game
 	ultiCrtCD = ultiCooldown;
 }
@@ -75,9 +77,14 @@ void ABPC_Champion::AbilityMonstro()
 
 	monstroCrtCD = monstroCooldown;
 
-
 	kPRINT("Monstro");
 }
+
+void ABPC_Champion::PingMonstro()
+{
+	GetMonstroDestination();
+}
+
 
 void ABPC_Champion::AbilitySpeed()
 {
@@ -121,3 +128,32 @@ void ABPC_Champion::AbilityUltimate()
 	kPRINT("Ultimate");
 }
 
+
+
+FVector ABPC_Champion::GetMonstroDestination()
+{
+	FHitResult out;
+	FCollisionQueryParams params;
+	params.AddIgnoredActor(this);
+
+	FVector cam_pos = FirstPersonCameraComponent->GetComponentLocation();
+	FVector cam_direction = FirstPersonCameraComponent->GetForwardVector();
+	FVector raycast_end = cam_pos + cam_direction * monstroPingMaxDist;
+
+	bool hit = GetWorld()->LineTraceSingleByChannel(out, cam_pos, raycast_end, ECC_Camera, params);
+
+	if (!hit) return FVector();
+
+	if (FVector::DotProduct(out.ImpactNormal, FVector::UpVector) < 0.8f) return FVector();
+
+	FVector destination = out.ImpactPoint;
+
+	FTransform particles_transform;
+	particles_transform.SetTranslation(destination + FVector::UpVector * 70.0f);
+	particles_transform.SetRotation(UKismetMathLibrary::RandomRotator().Quaternion());
+
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), monstroPingParticles, particles_transform);
+
+
+	return destination;
+}
