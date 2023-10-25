@@ -41,7 +41,7 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 
 	// Abilities
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float monstroSpeed = 0.0f;
+		float monstroSpeed = 800.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
 		float monstroPingMaxDist = 1500.0f;

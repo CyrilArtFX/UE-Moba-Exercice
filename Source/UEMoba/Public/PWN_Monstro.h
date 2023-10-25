@@ -1,12 +1,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/DefaultPawn.h"
+#include "GameFramework/Character.h"
 #include "AIC_Monstro.h"
 #include "PWN_Monstro.generated.h"
 
 UCLASS()
-class UEMOBA_API APWN_Monstro : public ADefaultPawn
+class UEMOBA_API APWN_Monstro : public ACharacter
 {
 	GENERATED_BODY()
 
@@ -18,6 +18,7 @@ public:
 	TSubclassOf<AAIC_Monstro> aiControllerClass_;
 
 
+	void SetSpeed(float speed);
 	void SetDestination(FVector destination, float yawRotation);
 
 

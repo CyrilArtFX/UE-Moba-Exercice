@@ -8,7 +8,6 @@ bool AAIC_Monstro::SetDestination(FVector destination)
 
 	if (result == EPathFollowingRequestResult::Type::RequestSuccessful) return true;
 
-
 	kPRINT_COLOR("Monstro can't reach this destination !", FColor::Red);
 	return false;
 }

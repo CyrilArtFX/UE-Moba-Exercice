@@ -1,5 +1,6 @@
 #include "PWN_Monstro.h"
 #include "Defines.h"
+#include "GameFramework/FloatingPawnMovement.h"
 
 
 APWN_Monstro::APWN_Monstro()
@@ -34,6 +35,11 @@ void APWN_Monstro::Tick(float DeltaTime)
 	}
 }
 
+
+void APWN_Monstro::SetSpeed(float speed)
+{
+	kPRINT(FString::SanitizeFloat(GetMovementComponent()->GetMaxSpeed()));
+}
 
 void APWN_Monstro::SetDestination(FVector destination, float yawRotation)
 {

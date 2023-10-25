@@ -87,6 +87,7 @@ void ABPC_Champion::AbilityMonstro()
 	monstro_transform.SetRotation(GetActorRotation().Quaternion());
 
 	monstro = GetWorld()->SpawnActor<APWN_Monstro>(monstroBlueprint, monstro_transform);
+	monstro->SetSpeed(monstroSpeed);
 }
 
 void ABPC_Champion::PingMonstro()
