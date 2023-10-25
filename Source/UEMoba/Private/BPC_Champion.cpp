@@ -97,7 +97,7 @@ void ABPC_Champion::PingMonstro()
 
 	if (monstro_dest == FVector::ZeroVector) return;
 
-	monstro_dest += FVector::UpVector * 5.0f;
+	monstro_dest += FVector::UpVector * 15.0f;
 
 	monstro->SetDestination(monstro_dest, GetActorRotation().Yaw);
 }

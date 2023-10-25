@@ -4,20 +4,14 @@
 
 APWN_Monstro::APWN_Monstro()
 {
-
 	PrimaryActorTick.bCanEverTick = true;
-
-	mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mesh"));
-	mesh->SetupAttachment(RootComponent);
-	mesh->SetCollisionProfileName(TEXT("IgnoreOnlyPawn"));
-	mesh->SetSimulatePhysics(true);
 }
 
 void APWN_Monstro::BeginPlay()
 {
 	Super::BeginPlay();
 	
-	aiController = GetWorld()->SpawnActor<AAIController>(aiControllerClass_, FTransform());
+	aiController = GetWorld()->SpawnActor<AAIC_Monstro>(aiControllerClass_, FTransform());
 	aiController->Possess(this);
 }
 
@@ -27,10 +21,10 @@ void APWN_Monstro::Tick(float DeltaTime)
 
 	if (isMoving)
 	{
-		if (aiController->GetMoveStatus() != EPathFollowingStatus::Moving)
+		if (!aiController->IsMoving())
 		{
 			isMoving = false;
-			aiController->StopMovement();
+			aiController->Stop();
 
 			FRotator rotation = GetActorRotation();
 			rotation.Yaw = wantedYawRotation;
@@ -43,17 +37,15 @@ void APWN_Monstro::Tick(float DeltaTime)
 
 void APWN_Monstro::SetDestination(FVector destination, float yawRotation)
 {
-	isMoving = true;
+	isMoving = aiController->SetDestination(destination);
+
 	wantedYawRotation = yawRotation;
-	EPathFollowingRequestResult::Type result;
-	result = aiController->MoveToLocation(destination);
 
-	kPRINT(FString::FromInt(result));
-	kPRINT(destination.ToString());
+	if (isMoving) return;
 
-	if (result == EPathFollowingRequestResult::Type::RequestSuccessful) return;
-	kPRINT_COLOR("Monstro can't reach this destination !", FColor::Red);
-	isMoving = false;
+	FRotator rotation = GetActorRotation();
+	rotation.Yaw = wantedYawRotation;
+	SetActorRotation(rotation);
 }
 
 

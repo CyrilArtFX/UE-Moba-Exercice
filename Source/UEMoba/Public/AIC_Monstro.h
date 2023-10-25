@@ -14,4 +14,11 @@ class UEMOBA_API AAIC_Monstro : public AAIController
 {
 	GENERATED_BODY()
 	
+public:
+	bool SetDestination(FVector destination);
+	bool IsMoving();
+	void Stop();
+
+protected:
+	void OnPossess(APawn* pawn) override;
 };
