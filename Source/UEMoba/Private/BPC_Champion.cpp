@@ -75,11 +75,11 @@ void ABPC_Champion::AbilityMonstro()
 		return;
 	}
 
+	if (IsValid(monstro)) return; //  monstro already exists
+
 	monstroCrtCD = monstroCooldown;
 
 	kPRINT("Monstro");
-
-	if (IsValid(monstro)) return; //  monstro already exists
 
 
 	FTransform monstro_transform;
