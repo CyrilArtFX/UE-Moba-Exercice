@@ -19,8 +19,11 @@ public:
 
 
 	void SetSpeed(float speed);
+	void SetLife(float life);
 	void SetDestination(FVector destination, float yawRotation);
 
+	UFUNCTION(BlueprintCallable)
+	void TakeDamage(float damage);
 
 protected:
 	virtual void BeginPlay() override;
@@ -28,6 +31,7 @@ protected:
 private:
 	AAIC_Monstro* aiController;
 
+	float hp;
 	bool isMoving{ false };
 
 	float wantedYawRotation;

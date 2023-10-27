@@ -75,8 +75,11 @@ void ABPC_Champion::AbilityMonstro()
 		return;
 	}
 
-	if (IsValid(monstro)) return; //  monstro already exists
-
+	if (IsValid(monstro)) //  monstro already exists
+	{
+		monstro->Destroy();
+	}
+		
 	monstroCrtCD = monstroCooldown;
 
 	kPRINT("Monstro");
@@ -88,6 +91,7 @@ void ABPC_Champion::AbilityMonstro()
 
 	monstro = GetWorld()->SpawnActor<APWN_Monstro>(monstroBlueprint, monstro_transform);
 	monstro->SetSpeed(monstroSpeed);
+	monstro->SetLife(monstroLife);
 }
 
 void ABPC_Champion::PingMonstro()
@@ -141,7 +145,6 @@ void ABPC_Champion::AbilityUltimate()
 	}
 
 	ultiCrtCD = ultiCooldown;
-
 
 	kPRINT("Ultimate");
 }

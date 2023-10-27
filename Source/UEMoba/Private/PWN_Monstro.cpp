@@ -1,6 +1,6 @@
 #include "PWN_Monstro.h"
 #include "Defines.h"
-#include "GameFramework/FloatingPawnMovement.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 
 APWN_Monstro::APWN_Monstro()
@@ -38,7 +38,12 @@ void APWN_Monstro::Tick(float DeltaTime)
 
 void APWN_Monstro::SetSpeed(float speed)
 {
-	kPRINT(FString::SanitizeFloat(GetMovementComponent()->GetMaxSpeed()));
+	Cast<UCharacterMovementComponent>(GetMovementComponent())->MaxWalkSpeed = speed;
+}
+
+void APWN_Monstro::SetLife(float life)
+{
+	hp = life;
 }
 
 void APWN_Monstro::SetDestination(FVector destination, float yawRotation)
@@ -52,6 +57,18 @@ void APWN_Monstro::SetDestination(FVector destination, float yawRotation)
 	FRotator rotation = GetActorRotation();
 	rotation.Yaw = wantedYawRotation;
 	SetActorRotation(rotation);
+}
+
+void APWN_Monstro::TakeDamage(float damage)
+{
+	hp -= damage;
+	kPRINT("Monstro took " + FString::SanitizeFloat(damage) + " damages.");
+
+	if (hp <= 0.0f)
+	{
+		kPRINT("Monstro died.");
+		Destroy();
+	}
 }
 
 

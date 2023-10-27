@@ -41,16 +41,13 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 
 	// Abilities
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float monstroSpeed = 800.0f;
+		float monstroSpeed = 600.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
 		float monstroPingMaxDist = 1500.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float monstroMaxCtrlTime = 0.0f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float monstroLifeTime = 0.0f;
+		float monstroLife = 50.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MonstroAbility, meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<APWN_Monstro> monstroBlueprint;
@@ -109,6 +106,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+
+	UFUNCTION(BlueprintCallable)
+	APWN_Monstro* GetMonstro() { return monstro; }
 
 private:
 	// Cooldowns

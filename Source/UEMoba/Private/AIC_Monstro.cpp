@@ -25,6 +25,4 @@ void AAIC_Monstro::Stop()
 void AAIC_Monstro::OnPossess(APawn* pawn)
 {
 	Super::OnPossess(pawn);
-
-	kPRINT(pawn->GetName());
 }
