@@ -22,6 +22,8 @@ ABPC_Champion::ABPC_Champion()
 	Mesh1P->SetupAttachment(FirstPersonCameraComponent);
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
+
+	SpeedBoostComponent = CreateDefaultSubobject<UAC_SpeedBoost>(TEXT("SpeedBoost"));
 }
 
 
@@ -118,8 +120,36 @@ void ABPC_Champion::AbilitySpeed()
 
 	speedieCrtCD = speedieCooldown;
 
-
 	kPRINT("Speedie");
+
+
+	TArray<FHitResult> outs;
+
+
+	bool hit = GetWorld()->SweepMultiByObjectType(outs, GetActorLocation(), GetActorLocation(), FQuat(), FCollisionObjectQueryParams(ECC_Pawn), FCollisionShape::MakeSphere(speedBoostRadius));
+
+	if (!hit)
+	{
+		kPRINT_COLOR("Speedie ability found no actor (bruh).", FColor::Red);
+		return;
+	}
+
+	TArray<ACharacter*> checked_chara;
+
+	for (FHitResult out : outs)
+	{
+		auto chara = Cast<ACharacter>(out.GetActor());
+		if (!chara->IsValidLowLevel()) continue;
+		
+		if (checked_chara.Contains(chara)) continue;
+		checked_chara.Add(chara);
+		
+
+		auto speed_comp = chara->GetComponentByClass<UAC_SpeedBoost>();
+		if (!speed_comp->IsValidLowLevel()) continue;
+
+		speed_comp->TriggerSpeedBoost(speedBoost, speedBoostDuration);
+	}
 }
 
 void ABPC_Champion::AbilityRecover()

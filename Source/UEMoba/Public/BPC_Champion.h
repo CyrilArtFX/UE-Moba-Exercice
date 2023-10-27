@@ -7,6 +7,7 @@
 #include "InputActionValue.h"
 #include <Particles/ParticleSystem.h>
 #include "PWN_Monstro.h"
+#include "AC_SpeedBoost.h"
 #include "BPC_Champion.generated.h"
 
 class UInputComponent;
@@ -24,6 +25,9 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 		UCameraComponent* FirstPersonCameraComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UAC_SpeedBoost* SpeedBoostComponent;
 
 
 	// Cooldowns
@@ -57,13 +61,13 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SpeedieAbility, meta = (min = 1.0f, AllowPrivateAccess = "true"))
-		float speedBoost = 1.0f;
+		float speedBoost = 1.5f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SpeedieAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float speedBoostRadius = 0.0f;
+		float speedBoostRadius = 1000.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = SpeedieAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float speedBoostDuration = 0.0f;
+		float speedBoostDuration = 10.0f;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = RecoverAbility, meta = (min = 1.0f, AllowPrivateAccess = "true"))
