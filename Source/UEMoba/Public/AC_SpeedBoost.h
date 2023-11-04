@@ -20,4 +20,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void TriggerSpeedBoost(float speedBoost, float duration);
+
+	float baseSpeed{ 0.0f };
+	float boostTimer{ 0.0f };
+
+private:
+	void Boost(float boostValue);
 };
