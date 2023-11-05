@@ -8,6 +8,7 @@
 #include <Particles/ParticleSystem.h>
 #include "PWN_Monstro.h"
 #include "AC_SpeedBoost.h"
+#include "AC_Flash.h"
 #include "BPC_Champion.generated.h"
 
 class UInputComponent;
@@ -87,10 +88,10 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ultimate, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float flashRange = 0.0f;
+		float flashRange = 5000.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ultimate, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float flashDuration = 0.0f;
+		float flashDuration = 2.0f;
 
 
 
