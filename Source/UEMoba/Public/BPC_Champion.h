@@ -15,6 +15,12 @@ class USkeletalMeshComponent;
 class USceneComponent;
 class UCameraComponent;
 
+struct DamageRecord
+{
+	float damage;
+	float recordTime;
+};
+
 UCLASS()
 class UEMOBA_API ABPC_Champion : public ACharacter
 {
@@ -71,10 +77,13 @@ class UEMOBA_API ABPC_Champion : public ACharacter
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = RecoverAbility, meta = (min = 1.0f, AllowPrivateAccess = "true"))
-		float recoverDmgRecordTime = 1.0f;
+		float recoverDmgRecordTime = 60.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = RecoverAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
-		float recoverDmgRecovred = 0.0f;
+		float recoverDmgRecovred = 0.75f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = RecoverAbility, meta = (min = 0.0f, AllowPrivateAccess = "true"))
+		float shieldDuration = 25.0f;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Ultimate, meta = (min = 0.0f, AllowPrivateAccess = "true"))
@@ -107,12 +116,31 @@ public:
 	void AbilityUltimate();
 
 
+	UFUNCTION(BlueprintCallable)
+	void TakeDamage(float damage);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	float getHealth() { return health; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	float getShield() { return shield; }
+
+
 protected:
 	virtual void BeginPlay() override;
 
 
 	UFUNCTION(BlueprintCallable)
 	APWN_Monstro* GetMonstro() { return monstro; }
+
+	UPROPERTY(BlueprintReadWrite)
+	float health = 100.0f;
+
+	UPROPERTY(BlueprintReadOnly)
+	float shield = 0.0f;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void OnDie();
 
 private:
 	// Cooldowns
@@ -122,6 +150,8 @@ private:
 	float ultiCrtCD = 0.0f;
 
 	APWN_Monstro* monstro{ nullptr };
+	TArray<DamageRecord> damagesRecorded;
+	float shieldTimer = 0.0f;
 
 	FVector GetMonstroDestination();
 };

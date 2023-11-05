@@ -45,6 +45,30 @@ void ABPC_Champion::Tick(float DeltaTime)
 	speedieCrtCD = fmax(speedieCrtCD - DeltaTime, 0.0f);
 	recoverCrtCD = fmax(recoverCrtCD - DeltaTime, 0.0f);
 	ultiCrtCD = fmax(ultiCrtCD - DeltaTime, 0.0f);
+
+
+	// Decrease damage recorded time
+	for (int i = 0; i < damagesRecorded.Num(); i++)
+	{
+		damagesRecorded[i].recordTime -= DeltaTime;
+		if (damagesRecorded[i].recordTime <= 0.0f)
+		{
+			damagesRecorded.RemoveAt(i);
+			i--;
+		}
+	}
+
+
+	// Decrease shield timer
+	if (shieldTimer > 0.0f)
+	{
+		kPRINT_TICK("Shield : " + FString::SanitizeFloat(shield) + "  | Remain for " + FString::SanitizeFloat(shieldTimer) + " seconds.");
+		shieldTimer -= DeltaTime;
+		if (shieldTimer <= 0.0f)
+		{
+			shield = 0.0f;
+		}
+	}
 }
 
 void ABPC_Champion::Move(const FInputActionValue& Value)
@@ -162,8 +186,17 @@ void ABPC_Champion::AbilityRecover()
 
 	recoverCrtCD = recoverCooldown;
 
-
 	kPRINT("Recover");
+
+	float new_shield = 0.0f;
+	for (auto dmg_recorded : damagesRecorded)
+	{
+		new_shield += dmg_recorded.damage;
+	}
+	damagesRecorded.Empty();
+	new_shield *= recoverDmgRecovred;
+	shield = new_shield;
+	shieldTimer = shieldDuration;
 }
 
 void ABPC_Champion::AbilityUltimate()
@@ -177,6 +210,24 @@ void ABPC_Champion::AbilityUltimate()
 	ultiCrtCD = ultiCooldown;
 
 	kPRINT("Ultimate");
+}
+
+void ABPC_Champion::TakeDamage(float damage)
+{
+	if (shield - damage > 0.0f)
+	{
+		shield -= damage;
+	}
+	else
+	{
+		damage -= shield;
+		shield = 0.0f;
+		health -= damage;
+
+		damagesRecorded.Add(DamageRecord{ damage, recoverDmgRecordTime });
+
+		if (health <= 0.0f) OnDie();
+	}
 }
 
 
